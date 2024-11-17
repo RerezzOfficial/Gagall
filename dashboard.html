@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #f53d2d, #ff6347);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            padding: 8px 15px;
+            border-radius: 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .search-bar:hover {
+            transform: scale(1.02);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 14px;
+        }
+
+        .search-bar button {
+            background: linear-gradient(90deg, #ff6347, #f53d2d);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: linear-gradient(90deg, #f53d2d, #ff6347);
+        }
+
+        /* Carousel */
+        .carousel {
+            margin: 15px 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel img {
+            width: 100%;
+            height: auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-indicators div {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .carousel-indicators div:hover {
+            transform: scale(1.2);
+        }
+
+        .carousel-indicators .active {
+            background-color: #f53d2d;
+            border-color: #f53d2d;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Menu Navigasi */
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .menu-item {
+            text-align: center;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-item i {
+            font-size: 26px;
+            color: #ff6347;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.1);
+            color: #f53d2d;
+        }
+
+        .menu-item:hover i {
+            color: #f53d2d;
+        }
+
+        .menu-item p {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* Produk */
+        .product-section {
+            background-color: white;
+            padding: 20px;
+            margin: 15px 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .product {
+            background-color: #f9f9f9;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .product p {
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .product .price {
+            color: #f53d2d;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Footer Navigasi */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer .footer-item {
+            text-align: center;
+            font-size: 13px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        footer .footer-item i {
+            font-size: 20px;
+            color: #999;
+        }
+
+        footer .footer-item.active i,
+        footer .footer-item:hover i {
+            color: #f53d2d;
+        }
+
+        footer .footer-item:hover {
+            transform: scale(1.1);
+            color: #f53d2d;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <i class="fas fa-bars"></i>
+        <div class="search-bar">
+            <input type="text" placeholder="Cari produk...">
+            <button>Cari</button>
+        </div>
+        <i class="fas fa-shopping-cart"></i>
+    </header>
+
+    <!-- Carousel -->
+    <div class="carousel">
+        <img src="https://via.placeholder.com/600x200" alt="Iklan 1">
+        <img src="https://via.placeholder.com/600x200" alt="Iklan 2" style="display: none;">
+        <img src="https://via.placeholder.com/600x200" alt="Iklan 3" style="display: none;">
+        <div class="carousel-indicators">
+            <div class="active"></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Menu Navigasi -->
+    <div class="menu">
+        <div class="menu-item">
+            <i class="fas fa-coins"></i>
+            <p>Ambil Koin</p>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-store"></i>
+            <p>LazMart</p>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-wallet"></i>
+            <p>Dana</p>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-gift"></i>
+            <p>Hadiah</p>
+        </div>
+        <div class="menu-item">
+            <i class="fas fa-video"></i>
+            <p>LazLive</p>
+        </div>
+    </div>
+
+  <div class="product-section">
+    <h2>Produk Terbaru</h2>
+    <div class="product-grid">
+        <!-- Produk 1 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 1">
+            <p>Produk 1</p>
+            <p class="price">Rp50.000</p>
+        </div>
+        <!-- Produk 2 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 2">
+            <p>Produk 2</p>
+            <p class="price">Rp60.000</p>
+        </div>
+        <!-- Produk 3 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 3">
+            <p>Produk 3</p>
+            <p class="price">Rp70.000</p>
+        </div>
+        <!-- Produk 4 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 4">
+            <p>Produk 4</p>
+            <p class="price">Rp80.000</p>
+        </div>
+    </div>
+</div>
+
+<div class="product-section">
+    <h2>Promo Terbatas</h2>
+    <div class="product-grid">
+        <!-- Produk 5 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 5">
+            <p>Produk 5</p>
+            <p class="price">Rp90.000</p>
+        </div>
+        <!-- Produk 6 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 6">
+            <p>Produk 6</p>
+            <p class="price">Rp100.000</p>
+        </div>
+        <!-- Produk 7 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 7">
+            <p>Produk 7</p>
+            <p class="price">Rp110.000</p>
+        </div>
+        <!-- Produk 8 -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produk 8">
+            <p>Produk 8</p>
+            <p class="price">Rp120.000</p>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer Navigasi -->
+    <footer>
+        <div class="footer-item active">
+            <i class="fas fa-home"></i>
+            <p>Beranda</p>
+        </div>
+        <div class="footer-item">
+            <i class="fas fa-th"></i>
+            <p>Kategori</p>
+        </div>
+        <div class="footer-item">
+            <i class="fas fa-gift"></i>
+            <p>Flash Sale</p>
+        </div>
+        <div class="footer-item">
+            <i class="fas fa-user"></i>
+            <p>Akun Saya</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.carousel img');
+        const indicators = document.querySelectorAll('.carousel-indicators div');
+
+        setInterval(() => {
+            images[currentIndex].style.display = 'none';
+            indicators[currentIndex].classList.remove('active');
+
+            currentIndex = (currentIndex + 1) % images.length;
+
+            images[currentIndex].style.display = 'block';
+            indicators[currentIndex].classList.add('active');
+        }, 3000);
+    </script>
+</body>
+
+</html>
