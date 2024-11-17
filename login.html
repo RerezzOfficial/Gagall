@@ -285,27 +285,25 @@
   }
 
   // Fungsi untuk login
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+  const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent actual form submission
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    // Mengambil data user yang tersimpan di localStorage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+        // Get saved email and password from localStorage
+        const storedEmail = localStorage.getItem('userEmail');
+        const storedPassword = localStorage.getItem('userPassword');
 
-    // Cek jika data pengguna ada dan cocok
-    if (storedUser) {
-      if (storedUser.email === email && storedUser.password === password) {
-        alert('Login successful!');
-        window.location.href = 'dashboard.html'; // Arahkan ke halaman dashboard setelah login berhasil
-      } else {
-        alert('Invalid email or password. Please try again.');
-      }
-    } else {
-      alert('No registered user found.');
-    }
-  });
+        // Check if the entered credentials match the stored ones
+        if (email === storedEmail && password === storedPassword) {
+            // Redirect to dashboard.html if login is successful
+            window.location.href = 'dashboard.html';
+        } else {
+            alert('Invalid login credentials');
+        }
+    });
 </script>
 </body>
 
