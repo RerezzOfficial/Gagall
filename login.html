@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Login</title>
+  <!-- Menambahkan Font Awesome untuk ikon -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Menghapus margin dan padding bawaan */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Layar penuh dengan font modern */
+    body,
+    html {
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Kanvas untuk latar belakang */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      transition: background-color 0.3s;
+    }
+
+    /* Kontainer formulir */
+    .form-container {
+      position: relative;
+      z-index: 1;
+      width: 350px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    /* Heading */
+    .form-container h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Input style */
+    .form-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Kolom password dengan ikon */
+    .password-container {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Ikon di sisi kanan kolom input */
+    .password-container .fa-eye,
+    .password-container .fa-eye-slash {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #fff;
+      z-index: 1;
+    }
+
+    .password-container input {
+      padding-right: 40px;
+    }
+
+    /* Tombol */
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00b4d8;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    /* Tombol hover */
+    .form-container button:hover {
+      background-color: #0077b6;
+    }
+
+    /* Link */
+    .form-container a {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #90e0ef;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    /* Link hover */
+    .form-container a:hover {
+      color: #00b4d8;
+    }
+
+    /* Ikon untuk mode gelap/terang */
+    .mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #fff;
+      z-index: 2;
+    }
+
+    /* Mode gelap */
+    .dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .dark-mode .form-container {
+      background: rgba(0, 0, 0, 0.8);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .dark-mode .form-container input,
+    .dark-mode .form-container button,
+    .dark-mode .form-container a {
+      color: #e0e0e0;
+    }
+
+    .dark-mode .form-container button {
+      background-color: #ff1493;
+    }
+
+    .dark-mode .form-container a {
+      color: #ff1493;
+    }
+
+    .dark-mode .mode-toggle {
+      color: #ff1493;
+    }
+
+    /* Ikon mode terang */
+    .light-mode {
+      color: #00b4d8;
+    }
+
+    /* Background Gradient untuk mode gelap */
+    .dark-mode canvas {
+      background: linear-gradient(to top, #121212, #2c3e50);
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Canvas untuk latar belakang -->
+  <canvas id="background"></canvas>
+
+  <!-- Ikon untuk mode gelap/terang -->
+  <i class="fas fa-moon mode-toggle" id="modeToggle" onclick="toggleMode()"></i>
+
+  <!-- Formulir -->
+  <div class="form-container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <a href="register.html">Don't have an account? Register</a>
+    </form>
+  </div>
+
+  <!-- Script untuk latar belakang -->
+  <script>
+    const canvas = document.getElementById('background');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let cloudPositions = [];
+
+    function createGradient() {
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#48cae4');
+      gradient.addColorStop(1, '#023e8a');
+      return gradient;
+    }
+
+    function drawBackground() {
+      ctx.fillStyle = createGradient();
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      cloudPositions.forEach(cloud => {
+        ctx.beginPath();
+        ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+        ctx.fill();
+        cloud.x += cloud.speed;
+        if (cloud.x > canvas.width) {
+          cloud.x = -cloud.size;
+        }
+      });
+
+      ctx.fillStyle = '#03045e';
+      for (let i = 0; i < canvas.width; i += 25) {
+        ctx.beginPath();
+        ctx.moveTo(i, canvas.height);
+        ctx.lineTo(i + 12, canvas.height - 70);
+        ctx.lineTo(i + 25, canvas.height);
+        ctx.fill();
+      }
+    }
+
+    function generateClouds() {
+      for (let i = 0; i < 20; i++) {
+        cloudPositions.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height / 2,
+          size: Math.random() * 100 + 50,
+          speed: Math.random() * 0.5 + 0.5
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground();
+      requestAnimationFrame(animate);
+    }
+
+    generateClouds();
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawBackground();
+    });
+
+    function toggleMode() {
+      const body = document.body;
+      const modeToggleIcon = document.getElementById("modeToggle");
+      body.classList.toggle("dark-mode");
+      body.classList.toggle("light-mode");
+      if (body.classList.contains("dark-mode")) {
+        modeToggleIcon.classList.remove("fa-moon");
+        modeToggleIcon.classList.add("fa-sun");
+      } else {
+        modeToggleIcon.classList.remove("fa-sun");
+        modeToggleIcon.classList.add("fa-moon");
+      }
+    }
+
+    // Fungsi untuk login
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      // Memeriksa apakah user ada di localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      if (user && user.username === username && user.password === password) {
+        alert('Login successful!');
+        window.location.href = 'dashboard.html'; // Arahkan ke dashboard
+      } else {
+        alert('Invalid username or password');
+      }
+    });
+  </script>
+</body>
+
+</html>
