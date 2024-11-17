@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Online Shop</title>
+
+    <!-- Font Awesome CDN for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Default Light Mode Background */
+        body {
+            background-color: #f0f0f0;
+        }
+
+        /* Dark Mode Styling */
+        body.dark-mode {
+            color: #ff4081; /* Pink Text */
+            background-image: url('https://pomf2.lain.la/f/c97j9pm.jpg'); /* Example background image */
+        }
+
+        /* Header Styling */
+        header {
+            width: 100%;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode header {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Logo Styling */
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e88e5;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .logo {
+            color: #ff4081;
+        }
+
+        /* Dark Mode Toggle Button (Kiri Atas) */
+        .toggle-theme {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.8rem;
+            color: #1e88e5;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        body.dark-mode .toggle-theme {
+            color: #ff4081;
+        }
+
+        .toggle-theme:hover {
+            transform: scale(1.2);
+        }
+
+        /* Icon Group Styling (Kanan Atas) */
+        .icon-group {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .icon-group a {
+            font-size: 1.8rem;
+            color: #1e88e5;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        body.dark-mode .icon-group a {
+            color: #ff4081;
+        }
+
+        .icon-group a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Main Content Section */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 6rem;
+            margin-top: 4rem;
+        }
+
+        .main-content h1 {
+            font-size: 3rem;
+            color: #1e88e5;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .main-content h1 {
+            color: #ff4081;
+        }
+
+        .main-content p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        body.dark-mode .main-content p {
+            color: #ff4081; /* Light pink text for paragraphs */
+        }
+
+        /* Footer Section */
+        footer {
+            width: 100%;
+            padding: 1.5rem;
+            background: #f4f4f4;
+            text-align: center;
+            font-size: 1rem;
+            color: #666;
+            margin-top: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ff4081;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #1e88e5;
+            font-weight: bold;
+        }
+
+        body.dark-mode footer a {
+            color: #ff4081;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                justify-content: center;
+            }
+
+            .main-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .main-content p {
+                font-size: 1rem;
+            }
+
+            .icon-group {
+                top: 0.8rem;
+                right: 0.8rem;
+            }
+
+            .toggle-theme {
+                top: 0.8rem;
+                left: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <!-- Dark Mode Toggle Button -->
+        <button class="toggle-theme" id="toggle-theme" aria-label="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <!-- Logo -->
+        <div class="logo">Online Shop</div>
+        <!-- Icon Group -->
+        <div class="icon-group">
+            <a href="login.html" aria-label="Login"><i class="fas fa-sign-in-alt"></i></a>
+            <a href="register.html" aria-label="Register"><i class="fas fa-user-plus"></i></a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Welcome to Online Shop</h1>
+        <p>Selamat datang di toko Online kami silahkan login atau daftar untuk masuk ke halaman utama dan melihat semua produk yang kamu sediakan.</p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        &copy; 2024 Online Shop. By Rerezz Official. <br>
+        <a href="https://t.me/rerez_x_hosting">Simpan Produk Anda</a> |
+        <a href="https://t.me/rerez_x_hosting">Hubungi Owner</a>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle Logic
+        const toggleThemeButton = document.getElementById('toggle-theme');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Apply the saved theme
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Toggle theme on button click
+        toggleThemeButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            toggleThemeButton.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+    </script>
+</body>
+</html>
