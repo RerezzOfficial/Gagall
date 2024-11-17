@@ -203,110 +203,110 @@
   </div>
 
   <!-- Script untuk latar belakang -->
-  <script>
-    const canvas = document.getElementById('background');
-    const ctx = canvas.getContext('2d');
+<script>
+  const canvas = document.getElementById('background');
+  const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-    let cloudPositions = [];
+  let cloudPositions = [];
 
-    function createGradient() {
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#48cae4');
-      gradient.addColorStop(1, '#023e8a');
-      return gradient;
-    }
+  function createGradient() {
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#48cae4');
+    gradient.addColorStop(1, '#023e8a');
+    return gradient;
+  }
 
-    function drawBackground() {
-      ctx.fillStyle = createGradient();
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+  function drawBackground() {
+    ctx.fillStyle = createGradient();
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-      cloudPositions.forEach(cloud => {
-        ctx.beginPath();
-        ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
-        ctx.fill();
-        cloud.x += cloud.speed;
-        if (cloud.x > canvas.width) {
-          cloud.x = -cloud.size;
-        }
-      });
-
-      ctx.fillStyle = '#03045e';
-      for (let i = 0; i < canvas.width; i += 25) {
-        ctx.beginPath();
-        ctx.moveTo(i, canvas.height);
-        ctx.lineTo(i + 12, canvas.height - 70);
-        ctx.lineTo(i + 25, canvas.height);
-        ctx.fill();
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    cloudPositions.forEach(cloud => {
+      ctx.beginPath();
+      ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+      ctx.fill();
+      cloud.x += cloud.speed;
+      if (cloud.x > canvas.width) {
+        cloud.x = -cloud.size;
       }
-    }
-
-    function generateClouds() {
-      for (let i = 0; i < 20; i++) {
-        cloudPositions.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height / 2,
-          size: Math.random() * 100 + 50,
-          speed: Math.random() * 0.5 + 0.5
-        });
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBackground();
-      requestAnimationFrame(animate);
-    }
-
-    generateClouds();
-    animate();
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawBackground();
     });
 
-    function toggleMode() {
-      const body = document.body;
-      const modeToggleIcon = document.getElementById("modeToggle");
-      body.classList.toggle("dark-mode");
-      body.classList.toggle("light-mode");
-      if (body.classList.contains("dark-mode")) {
-        modeToggleIcon.classList.remove("fa-moon");
-        modeToggleIcon.classList.add("fa-sun");
-      } else {
-        modeToggleIcon.classList.remove("fa-sun");
-        modeToggleIcon.classList.add("fa-moon");
-      }
+    ctx.fillStyle = '#03045e';
+    for (let i = 0; i < canvas.width; i += 25) {
+      ctx.beginPath();
+      ctx.moveTo(i, canvas.height);
+      ctx.lineTo(i + 12, canvas.height - 70);
+      ctx.lineTo(i + 25, canvas.height);
+      ctx.fill();
     }
-
-    // Fungsi untuk login
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  // Mengambil data user yang tersimpan di localStorage
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-
-  if (storedUser) {
-    if (storedUser.email === email && storedUser.password === password) {
-      alert('Login successful!');
-      window.location.href = 'dashboard.html'; // Arahkan ke halaman setelah login berhasil
-    } else {
-      alert('Invalid email or password. Please try again.');
-    }
-  } else {
-    alert('No registered user found.');
   }
-});
 
-  </script>
+  function generateClouds() {
+    for (let i = 0; i < 20; i++) {
+      cloudPositions.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height / 2,
+        size: Math.random() * 100 + 50,
+        speed: Math.random() * 0.5 + 0.5
+      });
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
+    requestAnimationFrame(animate);
+  }
+
+  generateClouds();
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drawBackground();
+  });
+
+  function toggleMode() {
+    const body = document.body;
+    const modeToggleIcon = document.getElementById("modeToggle");
+    body.classList.toggle("dark-mode");
+    body.classList.toggle("light-mode");
+    if (body.classList.contains("dark-mode")) {
+      modeToggleIcon.classList.remove("fa-moon");
+      modeToggleIcon.classList.add("fa-sun");
+    } else {
+      modeToggleIcon.classList.remove("fa-sun");
+      modeToggleIcon.classList.add("fa-moon");
+    }
+  }
+
+  // Fungsi untuk login
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Mengambil data user yang tersimpan di localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    // Cek jika data pengguna ada dan cocok
+    if (storedUser) {
+      if (storedUser.email === email && storedUser.password === password) {
+        alert('Login successful!');
+        window.location.href = 'dashboard.html'; // Arahkan ke halaman dashboard setelah login berhasil
+      } else {
+        alert('Invalid email or password. Please try again.');
+      }
+    } else {
+      alert('No registered user found.');
+    }
+  });
+</script>
 </body>
 
 </html>
