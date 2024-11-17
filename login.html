@@ -286,21 +286,26 @@
 
     // Fungsi untuk login
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault();
+  event.preventDefault();
 
-      const username = document.getElementById('loginUsername').value;
-      const password = document.getElementById('loginPassword').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-      // Memeriksa apakah user ada di localStorage
-      const user = JSON.parse(localStorage.getItem('user'));
+  // Mengambil data user yang tersimpan di localStorage
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
-      if (user && user.username === username && user.password === password) {
-        alert('Login successful!');
-        window.location.href = 'dashboard.html'; // Arahkan ke dashboard
-      } else {
-        alert('Invalid username or password');
-      }
-    });
+  if (storedUser) {
+    if (storedUser.email === email && storedUser.password === password) {
+      alert('Login successful!');
+      window.location.href = 'dashboard.html'; // Arahkan ke halaman setelah login berhasil
+    } else {
+      alert('Invalid email or password. Please try again.');
+    }
+  } else {
+    alert('No registered user found.');
+  }
+});
+
   </script>
 </body>
 
