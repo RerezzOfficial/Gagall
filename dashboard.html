@@ -394,7 +394,7 @@
             indicators[currentIndex].classList.add('active');
         }, 3000);
 
-        // Periksa apakah pengguna sudah login
+// Periksa apakah pengguna sudah login
 const isLoggedIn = localStorage.getItem("isLoggedIn");
 
 if (!isLoggedIn) {
@@ -405,6 +405,20 @@ if (!isLoggedIn) {
   const username = localStorage.getItem("username");
   document.getElementById("welcomeMessage").textContent = `Welcome, ${username}!`;
 }
+
+// Fungsi logout
+function logout() {
+  // Hapus status login dari localStorage
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("username");
+
+  // Redirect ke halaman login
+  window.location.href = "login.html";
+}
+
+// Event listener untuk tombol logout
+document.getElementById("logoutButton").addEventListener("click", logout);
+        
     </script>
 </body>
 
