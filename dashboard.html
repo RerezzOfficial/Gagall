@@ -395,15 +395,12 @@
         }, 3000);
 
 // Periksa apakah pengguna sudah login
+// Periksa status login dari localStorage
 const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-if (!isLoggedIn) {
+if (!isLoggedIn || isLoggedIn !== "true") {
   // Jika belum login, alihkan ke halaman login
   window.location.href = "login.html";
-} else {
-  // Ambil informasi pengguna dari localStorage dan tampilkan di dashboard
-  const username = localStorage.getItem("username");
-  document.getElementById("welcomeMessage").textContent = `Welcome, ${username}!`;
 }
 
 // Fungsi logout
@@ -418,7 +415,7 @@ function logout() {
 
 // Event listener untuk tombol logout
 document.getElementById("logoutButton").addEventListener("click", logout);
-        
+
     </script>
 </body>
 
