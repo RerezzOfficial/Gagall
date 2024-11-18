@@ -195,10 +195,9 @@
   <div class="form-container">
     <h1>Login</h1>
     <form id="loginForm">
-      <input type="text" id="loginUsername" placeholder="Username" required>
-      <input type="password" id="loginPassword" placeholder="Password" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
       <button type="submit">Login</button>
-      <a href="register.html">Don't have an account? Register</a>
     </form>
   </div>
 
@@ -285,24 +284,22 @@
   }
 
   // Fungsi untuk login
-  const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent actual form submission
+  document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-        // Get saved email and password from localStorage
-        const storedEmail = localStorage.getItem('userEmail');
-        const storedPassword = localStorage.getItem('userPassword');
+      // Ambil data dari localStorage
+      const storedUser = JSON.parse(localStorage.getItem("user"));
 
-        // Check if the entered credentials match the stored ones
-        if (email === storedEmail && password === storedPassword) {
-            // Redirect to dashboard.html if login is successful
-            window.location.href = 'dashboard.html';
-        } else {
-            alert('Invalid login credentials');
-        }
+      if (storedUser && storedUser.email === email && storedUser.password === password) {
+        alert(`Selamat datang, ${storedUser.username}!`);
+        // Redirect ke halaman utama (jika ada)
+        window.location.href = "home.html";
+      } else {
+        alert("Email atau password salah!");
+      }
     });
 </script>
 </body>
