@@ -254,6 +254,7 @@
 <body>
     <!-- Header -->
     <header>
+        <h1 id="welcomeMessage">Toko Online</h1>
         <i class="fas fa-bars"></i>
         <div class="search-bar">
             <input type="text" placeholder="Cari produk...">
@@ -392,6 +393,18 @@
             images[currentIndex].style.display = 'block';
             indicators[currentIndex].classList.add('active');
         }, 3000);
+
+        // Periksa apakah pengguna sudah login
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if (!isLoggedIn) {
+  // Jika belum login, alihkan ke halaman login
+  window.location.href = "login.html";
+} else {
+  // Ambil informasi pengguna dari localStorage dan tampilkan di dashboard
+  const username = localStorage.getItem("username");
+  document.getElementById("welcomeMessage").textContent = `Welcome, ${username}!`;
+}
     </script>
 </body>
 
