@@ -254,24 +254,29 @@
 
     // Fungsi untuk menangani login
     document.getElementById("loginForm").addEventListener("submit", function (event) {
-      event.preventDefault();
+  event.preventDefault();
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-      // Ambil data pengguna yang sudah terdaftar
-      const users = JSON.parse(localStorage.getItem("users")) || [];
+  // Ambil data pengguna yang sudah terdaftar
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
-      // Cek apakah username dan password cocok
-      const user = users.find(user => user.username === username && user.password === password);
+  // Cek apakah username dan password cocok
+  const user = users.find(user => user.username === username && user.password === password);
 
-      if (user) {
-        alert("Login berhasil!");
-        window.location.href = "dashboard.html"; // Redirect ke halaman dashboard atau halaman utama
-      } else {
-        alert("Username atau password salah.");
-      }
-    });
+  if (user) {
+    // Simpan status login di localStorage
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", username); // Simpan nama pengguna
+
+    alert("Login berhasil!");
+    window.location.href = "dashboard.html"; // Redirect ke halaman dashboard
+  } else {
+    alert("Username atau password salah.");
+  }
+});
+    
 
     // Fungsi toggle untuk menampilkan atau menyembunyikan password
     function togglePassword() {
