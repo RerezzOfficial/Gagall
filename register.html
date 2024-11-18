@@ -16,7 +16,7 @@
     body, html {
       height: 100%;
       font-family: 'Arial', sans-serif;
-      overflow: hidden;
+      overflow: auto;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -155,14 +155,9 @@
       color: #ff1493;
     }
 
-    .light-mode {
-      color: #00b4d8;
-    }
-
     .dark-mode canvas {
       background: linear-gradient(to top, #121212, #2c3e50);
     }
-
   </style>
 </head>
 
@@ -175,132 +170,151 @@
     <form id="registerForm">
       <input type="text" id="username" placeholder="Username" required>
       <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Password" required>
+        <i class="fas fa-eye-slash" id="togglePassword" onclick="togglePassword()"></i>
+      </div>
       <button type="submit">Daftar</button>
       <a href="login.html">Sudah punya akun? Login di sini</a>
     </form>
   </div>
 
-<script>
-  const canvas = document.getElementById('background');
-  const ctx = canvas.getContext('2d');
+  <script>
+    const canvas = document.getElementById('background');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
+let cloudPositions = [];
+
+function createGradient() {
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0, '#48cae4');
+  gradient.addColorStop(1, '#023e8a');
+  return gradient;
+}
+
+function drawBackground() {
+  ctx.fillStyle = createGradient();
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+  cloudPositions.forEach(cloud => {
+    ctx.beginPath();
+    ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+    ctx.fill();
+    cloud.x += cloud.speed;
+    if (cloud.x > canvas.width) {
+      cloud.x = -cloud.size;
+    }
+  });
+}
+
+function generateClouds() {
+  for (let i = 0; i < 20; i++) {
+    cloudPositions.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height / 2,
+      size: Math.random() * 100 + 50,
+      speed: Math.random() * 0.5 + 0.5
+    });
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+  requestAnimationFrame(animate);
+}
+
+generateClouds();
+animate();
+
+window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+});
 
-  let cloudPositions = [];
+function toggleMode() {
+  const body = document.body;
+  const modeToggleIcon = document.getElementById("modeToggle");
+  body.classList.toggle("dark-mode");
+  if (body.classList.contains("dark-mode")) {
+    modeToggleIcon.classList.replace("fa-moon", "fa-sun");
+  } else {
+    modeToggleIcon.classList.replace("fa-sun", "fa-moon");
+  }
+}
 
-  function createGradient() {
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#48cae4');
-    gradient.addColorStop(1, '#023e8a');
-    return gradient;
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("togglePassword");
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.classList.replace("fa-eye-slash", "fa-eye");
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.classList.replace("fa-eye", "fa-eye-slash");
+  }
+}
+
+document.getElementById("registerForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // Validasi username
+  if (username.length < 3) {
+    alert("Username harus minimal 3 karakter.");
+    return;
   }
 
-  function drawBackground() {
-    ctx.fillStyle = createGradient();
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    cloudPositions.forEach(cloud => {
-      ctx.beginPath();
-      ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
-      ctx.fill();
-      cloud.x += cloud.speed;
-      if (cloud.x > canvas.width) {
-        cloud.x = -cloud.size;
-      }
-    });
-
-    ctx.fillStyle = '#03045e';
-    for (let i = 0; i < canvas.width; i += 25) {
-      ctx.beginPath();
-      ctx.moveTo(i, canvas.height);
-      ctx.lineTo(i + 12, canvas.height - 70);
-      ctx.lineTo(i + 25, canvas.height);
-      ctx.fill();
-    }
+  // Validasi email
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("Masukkan email yang valid.");
+    return;
   }
 
-  function generateClouds() {
-    for (let i = 0; i < 20; i++) {
-      cloudPositions.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height / 2,
-        size: Math.random() * 100 + 50,
-        speed: Math.random() * 0.5 + 0.5
-      });
-    }
+  // Validasi password
+  if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
+    alert("Password harus minimal 8 karakter, mengandung huruf besar, kecil, dan angka.");
+    return;
   }
 
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBackground();
-    requestAnimationFrame(animate);
+  // Ambil data pengguna lama
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Validasi email sudah digunakan
+  if (users.some(user => user.email === email)) {
+    alert("Email sudah terdaftar. Silakan gunakan email lain.");
+    return;
   }
 
-  generateClouds();
-  animate();
+  // Simpan pengguna baru ke localStorage
+  users.push({ username, email, password });
+  localStorage.setItem("users", JSON.stringify(users));
 
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    drawBackground();
-  });
+  alert("Pendaftaran berhasil! Silakan login.");
+  window.location.href = "login.html";
+});
 
-  function toggleMode() {
-    const body = document.body;
-    const modeToggleIcon = document.getElementById("modeToggle");
-    body.classList.toggle("dark-mode");
-    body.classList.toggle("light-mode");
-    if (body.classList.contains("dark-mode")) {
-      modeToggleIcon.classList.remove("fa-moon");
-      modeToggleIcon.classList.add("fa-sun");
-    } else {
-      modeToggleIcon.classList.remove("fa-sun");
-      modeToggleIcon.classList.add("fa-moon");
-    }
+// Toggle visibility password
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("togglePassword");
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.classList.remove("fa-eye-slash");
+    toggleIcon.classList.add("fa-eye");
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.classList.remove("fa-eye");
+    toggleIcon.classList.add("fa-eye-slash");
   }
+}
 
-  // Fungsi untuk menangani pendaftaran
-  document.getElementById("registerForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    // Ambil data pengguna lama
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Validasi email sudah digunakan
-    if (users.some(user => user.email === email)) {
-      alert("Email sudah terdaftar. Silakan gunakan email lain.");
-      return;
-    }
-
-    // Simpan pengguna baru ke localStorage
-    users.push({ username, email, password });
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Pendaftaran berhasil! Silakan login.");
-    window.location.href = "login.html";
-  });
-
-  // Toggle visibility password
-  function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const toggleIcon = document.getElementById("togglePassword");
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      toggleIcon.classList.remove("fa-eye-slash");
-      toggleIcon.classList.add("fa-eye");
-    } else {
-      passwordInput.type = "password";
-      toggleIcon.classList.remove("fa-eye");
-      toggleIcon.classList.add("fa-eye-slash");
-    }
-  }
 </script>
 </body>
 
